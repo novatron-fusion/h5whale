@@ -3,10 +3,10 @@ services:
     build:
       context: ./h5web_app
       args:
-        - HSDS_SERVER_URL=${HSDS_SERVER_URL}
-        - HSDS_SERVER_USER=${HSDS_SERVER_USER}
-        - HSDS_SERVER_PASSWORD=${HSDS_SERVER_PASSWORD}
-        - H5WEB_APP_PORT=${H5WEB_APP_PORT}
+        - HSDS_SERVER_URL=http://localhost:5101
+        - HSDS_SERVER_USER=admin
+        - HSDS_SERVER_PASSWORD=admin
+        - H5WEB_APP_PORT=3000
     ports:
       - "${H5WEB_APP_PORT}:${H5WEB_APP_PORT}"
   h5grove:
