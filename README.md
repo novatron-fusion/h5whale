@@ -24,7 +24,7 @@ The viewer can be accessed at `http://localhost:3000`, the file being specified 
 
 The value of the front-end app port (default: `3000`) and of the back-end app port (default: `8888`) can be changed in the `.env` file.
 
-## 🖼️ Docker images 
+## 🖼️ Docker images
 
 ### Back-end (h5grove_app)
 
@@ -45,3 +45,14 @@ By default, the viewer can be accessed `http://localhost:3000` and will request 
 - `H5WEB_APP_PORT`: Port through which the viewer will be served (default: `3000`)
 - `H5GROVE_APP_URL`: URL of the h5grove app that serves HDF5 file contents (default: `http://localhost`)
 - `H5GROVE_APP_PORT`: Port through which the h5grove app serves HDF5 file contents (default: `8888`)
+
+### Front-end for HSDS (h5web_app)
+
+The front-end app in `h5web_app` is a React application deploying the H5Web viewer with [vite](https://vitejs.dev/) for an HSDS server
+
+There are two .env configs for either a local hsds server on `http://localhost:5100` or for a remote server.
+
+To start run:
+
+- `docker compose --env-file .env.local up`
+- docker compose --env-file .env.novadb up
