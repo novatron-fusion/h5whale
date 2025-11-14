@@ -1,29 +1,35 @@
-import { App, H5GroveProvider } from '@h5web/app';
+import {
+  App,
+  assertEnvVar,
+  buildBasicAuthHeader,
+  createBasicFetcher,
+  HsdsProvider,
+} from '@h5web/app';
+import { useMemo } from 'react';
 
 function MyApp() {
   const query = new URLSearchParams(globalThis.location.search);
   const file = query.get('file');
-  const url = import.meta.env.VITE_H5GROVE_URL as string;
-  const port = import.meta.env.VITE_H5GROVE_PORT as string;
+  const URL = import.meta.env.VITE_HSDS_URL;
+  const USERNAME = import.meta.env.VITE_HSDS_USER;
+  const PASSWORD = import.meta.env.VITE_HSDS_PASSWORD;
 
-  if (!file) {
-    return (
-      <p>
-        Provide a file name by adding
-        <pre>?file=...</pre>
-        to the URL.
-      </p>
-    );
-  }
+  assertEnvVar(URL, 'VITE_HSDS_URL');
+  assertEnvVar(USERNAME, 'VITE_HSDS_USER');
+  assertEnvVar(PASSWORD, 'VITE_HSDS_PASSWORD');
+
+  
+
+  const fetcher = useMemo(() => {
+    return createBasicFetcher({
+      headers: buildBasicAuthHeader(USERNAME, PASSWORD),
+    });
+  }, [USERNAME, PASSWORD]);
 
   return (
-    <H5GroveProvider
-      url={port ? `${url}:${port}` : url}
-      filepath={file}
-      axiosConfig={{ params: { file } }}
-    >
+    <HsdsProvider url={URL} filepath={file} fetcher={fetcher}>
       <App />
-    </H5GroveProvider>
+    </HsdsProvider>
   );
 }
 

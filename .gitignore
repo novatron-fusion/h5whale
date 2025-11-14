@@ -6,3 +6,4 @@ dist-ssr
 *.tsbuildinfo
 
 __pycache__
+.env

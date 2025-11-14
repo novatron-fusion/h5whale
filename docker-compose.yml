@@ -3,18 +3,17 @@ services:
     build:
       context: ./h5web_app
       args:
-        - H5GROVE_APP_PORT=${H5GROVE_APP_PORT}
-        - H5WEB_APP_PORT=${H5WEB_APP_PORT}
+        - H5WEB_APP_PORT=3000
     ports:
-      - '${H5WEB_APP_PORT}:${H5WEB_APP_PORT}'
-  h5grove:
-    build:
-      context: ./h5grove_app
-      args:
-        - H5GROVE_APP_PORT=${H5GROVE_APP_PORT}
-    ports:
-      - '${H5GROVE_APP_PORT}:${H5GROVE_APP_PORT}'
+      - "${H5WEB_APP_PORT}:${H5WEB_APP_PORT}"
+    depends_on:
+      - hsds-proxy
+
+  hsds-proxy:
+    image: nginx:alpine
     volumes:
-      - type: bind
-        source: ./data
-        target: /data
+      - ./nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
+    ports:
+      - "31415:31415"
+    environment:
+      - HSDS_BACKEND_URL=${HSDS_SERVER_URL:-http://localhost:5100}
