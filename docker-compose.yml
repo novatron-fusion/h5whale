@@ -4,19 +4,8 @@ services:
       context: ./h5web_app
       args:
         - H5WEB_APP_PORT=${H5WEB_APP_PORT:-3000}
-        - VITE_HSDS_URL=${VITE_HSDS_URL:-http://localhost:31415}
+        - VITE_HSDS_URL=${VITE_HSDS_URL}
         - VITE_HSDS_USER=${VITE_HSDS_USER:-admin}
         - VITE_HSDS_PASSWORD=${VITE_HSDS_PASSWORD:-admin}
     ports:
       - "${H5WEB_APP_PORT}:${H5WEB_APP_PORT}"
-    depends_on:
-      - hsds-proxy
-
-  hsds-proxy:
-    image: nginx:alpine
-    volumes:
-      - ./nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
-    ports:
-      - "31415:31415"
-    environment:
-      - HSDS_BACKEND_URL=${HSDS_SERVER_URL:-http://localhost:5100}

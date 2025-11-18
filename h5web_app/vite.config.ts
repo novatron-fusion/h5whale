@@ -13,4 +13,7 @@ export default defineConfig({
     minify: false,
     sourcemap: true,
   },
+  preview: {
+    allowedHosts: ['all'],
+  },
 });
